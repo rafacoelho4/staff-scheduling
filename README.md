@@ -16,7 +16,7 @@ The emphasis is on novel optimization models that take into account demand requi
 
 ## ☕ Running the code
 
-Clone this <project>:
+Clone this project:
 
 ```
 git clone https://github.com/rafacoelho4/staff-scheduling.git
@@ -29,7 +29,7 @@ In Tools, make sure to check "Use external .dat" and "Generate output file on go
 
 ## 📝 License
 
-This project is under license. Open file [LICENÇA](LICENSE.md) for mode details.
+This project is under license. Open file [LICENSE](LICENSE.md) for mode details.
 
 [⬆ Voltar ao topo](#nome-do-projeto)<br>
 
