@@ -1,0 +1,121 @@
+data;
+param employees := 6;
+param days := 2;
+param shifts := 2;
+param t := 6;
+
+# employees
+set E := E1, E2, E3, E4, E5, E6;
+# work remote or not
+param: wr :=
+E1	0
+E2	1
+E3	2
+E4	2
+E5	1
+E6	1;
+# hours
+param: h :=
+E1	12
+E2	6
+E3	6
+E4	6
+E5	6
+E6	6;
+# max hours
+param: mdh :=
+E1	12
+E2	12
+E3	6
+E4	6
+E5	6
+E6	6;
+# jobs
+set K := 1, 2;
+param sk :=
+E1	1
+E2	1
+E3	1
+E4	2
+E5	2
+E6	2;
+# minimum staff
+param: c :=
+1	1	1	0
+1	1	2	0
+1	2	1	1
+1	2	2	0
+2	1	1	1
+2	1	2	0
+2	2	1	1
+2	2	2	0;
+# rooms
+set R := 1, 2;
+param cap :=
+1	2
+2	3;
+# employees' room
+param ar :=
+E1	1
+E2	1
+E3	1
+E4	2
+E5	2
+E6	2;
+# employees' availability
+param: w :=
+E1	1	1	1
+E1	1	2	1
+E1	2	1	1
+E1	2	2	1
+E2	1	1	1
+E2	1	2	1
+E2	2	1	1
+E2	2	2	1
+E3	1	1	1
+E3	1	2	1
+E3	2	1	1
+E3	2	2	1
+E4	1	1	1
+E4	1	2	1
+E4	2	1	1
+E4	2	2	1
+E5	1	1	1
+E5	1	2	1
+E5	2	1	1
+E5	2	2	1
+E6	1	1	1
+E6	1	2	1
+E6	2	1	1
+E6	2	2	1;
+# remote work availability
+param: rw :=
+E1	1	1	1
+E1	1	2	1
+E1	2	1	1
+E1	2	2	1
+E2	1	1	1
+E2	1	2	1
+E2	2	1	1
+E2	2	2	1
+E3	1	1	1
+E3	1	2	1
+E3	2	1	1
+E3	2	2	1
+E4	1	1	1
+E4	1	2	1
+E4	2	1	1
+E4	2	2	1
+E5	1	1	1
+E5	1	2	1
+E5	2	1	1
+E5	2	2	1
+E6	1	1	1
+E6	1	2	1
+E6	2	1	1
+E6	2	2	1;
+set E0 := E4;
+
+end;
+
+
