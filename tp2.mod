@@ -1,9 +1,9 @@
-# Parâmetros
-# quantidade de empregados
+# Parameters
+# Number of employees
 param employees, >=1, integer;
-# quantidade de dias do período
+# Number of days over the planning period
 param days, >=1, integer;
-# quantidade de turnos por dia
+# Number of shifts per day
 param shifts, >=1, integer;
 
 # Sets
@@ -14,71 +14,71 @@ set K;
 set R;
 set E0;
 
-# Tipo do trabalho obrigatoriamente (0: presencial, 1: remoto e 2: qualquer um)
+# Type of work (0: on site, 1: remote e 2: both)
 param wr{E} in {0, 1, 2};
 
-# Duração de um turno 
+# Duration of a shift 
 param t, >=1, integer;
 
-# Carga horária do empregador
+# Employee's workload
 param h{E}, >= 1, integer;
 
-# Máximo de horas que um empregado pode trabalhar no período
+# Maximum number of hours an employee can work on site during the day
 param mdh{E}, >= 1, integer;
 
-# Número mínimo de empregados
+# Minimum number of employees
 param c{i in D, j in S, k in K}, >= 0, integer;
 
-# Trabalho do empregado
+# Employee's work
 param sk {i in E};
 
-# Sala/escritório do empregado
+# Employee's room or office
 param ar {i in E};
 
-# Capacidade máxima do escritório
+# Maximum office capacity
 param cap {i in R};
 
-# Disponibilidade para trabalhar
+# Availability to work
 param w{i in E, j in D, k in S};
 
-# Disponibilidade para trabalhar remotamente
+# Availability to work remotely
 param rw{i in E, j in D, k in S};
 
-# Variáveis de decisão
-# x: alocação trabalho presencial
-#     = 1  se empregado E está alocado para trabalhar presencialmente no dia D e no turno S
-#     = 0  se empregado E NÃO vai trabalhar presencialmente no dia D e no turno S
+# Decision variables
+# x: work allocation
+#     = 1  if employee E is set to work on site on the day D and shift S
+#     = 0  if employee E is not set to work on site on the day D and shift 
 var x{i in E, j in D, k in S}, binary;
-# y: alocação trabalho remoto
-#     = 1  se empregado E está alocado para trabalhar remotamente no dia D e no turno S
-#     = 0  se empregado E NÃO vai trabalhar remotamente no dia D e no turno S
+# y: remote work allocation
+#     = 1  if employee E is set to work remotely on the day D and shift S
+#     = 0  if employee E is not set to work remotely on the day D and shift S
 var y{i in E, j in D, k in S}, binary;
 
-# Função Objetiva
+# Objective function
 maximize x: sum{i in E, j in D, k in S} x[i, j, k];
 
-# Restrições
-# (3) Trabalho simultâneo
+# Restrictions
+# (3) Working simultaneously
 s.t. r_3{i in E, j in D, k in S}: x[i, j, k] + y[i, j, k] <= 1;
-# (4) Empregados trabalhando apenas presencialmente
+# (4) Employees working only on site
 s.t. r_4{i in E, j in D, k in S}: if wr[i] = 0 then y[i, j, k] = 0;
-# (5) Empregados trabalhando apenas remotamente
+# (5) Employees working only remotely
 s.t. r_5{i in E, j in D, k in S}: if wr[i] = 1 then x[i, j, k] = 0;
-# (6) Carga horária cumprida 
+# (6) Workload fulfilled
 s.t. r_6{i in E}: sum{j in D, k in S} t * (x[i, j, k] + y[i, j, k]) = h[i];
-# (7) Carga horária máxima diária não é ultrapassada
+# (7) Maximum daily workload is not exceeded
 s.t. r_7{i in E, j in D}: sum{k in S} (t * (x[i, j, k] + y[i, j, k])) <= mdh[i];
-# (8) Mão de obra mínima 
+# (8) Minimum number of employees
 s.t. r_8{i in D, j in S, k in K}: sum{e in E: sk[e] = k} x[e, i, j] >= c[i, j, k];
-# (9) Capacidade máxima da sala
+# (9) Maximum office capacity
 s.t. r_9{i in D, j in S, r in R}: sum{e in E: ar[e] = r} x[e, i, j] <= cap[r];
-# (10) Disponibilidade para trabalhar
+# (10) Availability to work
 s.t. r_10{i in E, j in D, k in S}: x[i, j, k] <= w[i, j, k];
-# (11) Disponibilidade para trabalhar
+# (11) Availability to work
 s.t. r_11{i in E, j in D, k in S}: y[i, j, k] <= w[i, j, k];
-# (12) Disponibilidade para trabalhar a distância
+# (12) Availability to work remotely
 s.t. r_12{i in E, j in D, k in S}: y[i, j, k] <= rw[i, j, k];
-# (13) Alternando empregados no período
+# (13) Alternating employees
 s.t. r_13{i in E0, j in D, k in S}: if wr[i] = 2 then x[i, j, k] = 0;
 
 solve;
